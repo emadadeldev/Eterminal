@@ -1,0 +1,21 @@
+.info {
+color: var(--info);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.error {
+    color: var(--error);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.warning {
+    color: var(--warning);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.hint {
+    color: yellow;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

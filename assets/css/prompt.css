@@ -1,0 +1,16 @@
+input {
+    background: none;
+    border: none;
+    color: var(--cursor);
+    outline: none;
+    width: 955px;
+    font-family: "JetBrains Mono", monospace;
+}
+  
+.prompt {
+    color: var(--prompt);
+}
+
+#output {
+    white-space: pre-wrap;
+}
