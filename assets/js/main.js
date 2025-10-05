@@ -1,7 +1,7 @@
 // <!-- <#
 // .NOTES
 //     Developer      : Emad Adel
-//     GitHub         : https://github.com/emadadel4
+//     GitHub         : https://github.com/emadadeldev
 //     © 2025 Emad Adel. All rights reserved.
 // #> -->
 
@@ -42,9 +42,8 @@ const defaultConfig = {
     margin: "50",
     searchEngine: "duckduckgo",
     OpenCommands: {
-      "yt": "https://www.youtube.com",
-      "github": "https://github.com/emadadel4",
-      "blog": "https://emadadel.gitlab.io"
+      "yt": "https://www.youtube.com/@arcodyx",
+      "github": "https://github.com/emadadeldev",
     }
   }
 
