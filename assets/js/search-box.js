@@ -1,57 +1,67 @@
 (() => {
-    const existingInput = document.getElementById("custom-search-box");
-  
-    if (existingInput) {
-      existingInput.remove();
-      return;
+  const existing = document.getElementById("search-overlay");
+  if (existing) {
+    existing.remove();
+    return;
+  }
+
+  const overlay = document.createElement("div");
+  overlay.id = "search-overlay";
+
+  Object.assign(overlay.style, {
+    position: "fixed",
+    inset: "0",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "rgba(0, 0, 0, 0.8)",
+    zIndex: "2147483646"
+  });
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.id = "custom-search-box";
+  input.placeholder = "Type here to search";
+
+  Object.assign(input.style, {
+    width: "400px",
+    maxWidth: "90vw",
+    padding: "15px 20px",
+    fontSize: "14px",
+    border: "2px solid #0078d7",
+    borderRadius: "10px",
+    outline: "none",
+    boxShadow: "0 8px 15px rgba(0, 120, 215, 0.3)",
+    background: "#000000ff",
+    color: "#ffffff"
+  });
+
+  overlay.appendChild(input);
+  document.body.appendChild(overlay);
+
+  input.focus();
+
+  function close() {
+    overlay.remove();
+  }
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) close();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const q = input.value.trim();
+      if (!q) return;
+
+      window.open(
+        `https://duckduckgo.com/?q=${encodeURIComponent(q)}`,
+        "_blank"
+      );
+
+      close();
     }
-  
-    const input = document.createElement("input");
-    input.type = "text";
-    input.id = "custom-search-box";
-    input.placeholder = "Search";
-    input.style.position = "fixed";
-    input.style.top = "50%";
-    input.style.left = "50%";
-    input.style.color = "black"
-    input.style.transform = "translate(-50%, -50%)";
-    input.style.padding = "10px 20px";
-    input.style.fontSize = "18px";
-    input.style.zIndex = "999999";
-    input.style.border = "2px solid #333";
-    input.style.borderRadius = "8px";
-    input.style.width = "500px";
-    input.style.boxShadow = "0 4px 12px rgba(0,0,0,0.3)";
-    input.style.backgroundColor = "#fff";
-  
-    document.body.appendChild(input);
-    input.focus();
-  
-    function onClickOutside(event) {
-      if (event.target !== input) {
-        input.remove();
-        document.removeEventListener("click", onClickOutside);
-      }
-    }
-    document.addEventListener("click", onClickOutside);
-  
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const query = input.value.trim();
-        if (!query) return;
-  
-        try {
-          window.open(`https://www.duckduckgo.com/?q=${encodeURIComponent(query)}`, "_blank");
-        } catch {
-          alert("failed to open search");
-        }
-  
-        input.remove();
-        document.removeEventListener("click", onClickOutside);
-      } else if (e.key === "Escape") {
-        input.remove();
-        document.removeEventListener("click", onClickOutside);
-      }
-    });
-  })();
-  
+
+    if (e.key === "Escape") close();
+  });
+})();
