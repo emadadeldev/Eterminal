@@ -51,48 +51,65 @@ const defaultConfig = {
 let userConfig = JSON.parse(localStorage.getItem('userConfig')) || {...defaultConfig};
 if (!userConfig.aliases) userConfig.aliases = {};
 
-// Apply config on page load
-window.addEventListener('DOMContentLoaded', () => {
-
-    if (userConfig.background === "picsum") {
-
-        if (document.querySelector('.bg-wrapper')) return;
+// Function to load background asynchronously without blocking
+function loadBackgroundAsync() {
+    if (userConfig.background !== "picsum") return;
     
-        const highRes = `https://picsum.photos/1920/1080`;
+    // Check if background already exists
+    if (document.querySelector('.bg-wrapper')) return;
     
+    // Create placeholder/overlay first (optional)
+    let overlay = document.getElementById('background-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'background-overlay';
+        overlay.className = 'bg-overlay';
+        document.body.appendChild(overlay);
+    }
+    
+    // Load image in background without blocking
+    requestIdleCallback(() => {
+        const highRes = `https://picsum.photos/1920/1080?random=${Date.now()}`;
+        
         const img = new Image();
         img.src = highRes;
         img.decoding = "async";
         img.loading = "eager";
         img.className = 'bg-img';
-    
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.3s ease-in-out';
+        
         img.onload = () => {
             const bgWrapper = document.createElement('div');
             bgWrapper.className = 'bg-wrapper';
             bgWrapper.appendChild(img);
             document.body.appendChild(bgWrapper);
+            
+            // Fade in the background
+            setTimeout(() => {
+                img.style.opacity = '1';
+            }, 10);
             img.classList.add('loaded');
         };
-    
-        let overlay = document.getElementById('background-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'background-overlay';
-            overlay.className = 'bg-overlay';
-            document.body.appendChild(overlay);
-        }
-    }
+        
+        img.onerror = () => {
+            console.warn('Failed to load background image');
+        };
+    }, { timeout: 2000 });
+}
 
+// Apply config on page load - without waiting for background
+window.addEventListener('DOMContentLoaded', () => {
+    
+    // Apply settings immediately (these don't block)
     if(userConfig.fontSize){document.documentElement.style.setProperty('--font-size', `${userConfig.fontSize}px`);}
-
     if(userConfig.prompt){updatePrompt(userConfig.prompt);}
-
     if(userConfig.promptcolor != "none"){document.documentElement.style.setProperty('--prompt', `${userConfig.promptcolor}`);}
-
     if(userConfig.tips == "true"){displayOutput(Welcome[0], "info", "1");}
-    
     if(userConfig.margin){document.documentElement.style.setProperty('--margin', `${userConfig.margin}px`);}
-
+    
+    // Load background asynchronously (non-blocking)
+    loadBackgroundAsync();
 });
 
 // Apply theme
@@ -245,16 +262,26 @@ function displayOutput(output, level = "info") {
     
     if (typeof output === 'string' || output instanceof String) {
 
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        outputLine.innerHTML = output.replace(urlRegex, url => 
-            `<a href="${url}" target="_blank">${url}</a>`
-        );
+        // يلتقط: title + url
+        const urlRegex = /(.*?)(https?:\/\/[^\s]+)/g;
+
+        const safeText = output
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+
+        outputLine.innerHTML = safeText.replace(urlRegex, (_, title, url) => {
+
+            const cleanTitle = title.trim() || url;
+
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${cleanTitle}</a>`;
+        });
+
     } else if (output instanceof HTMLElement) {
         outputLine.appendChild(output);
     } else {
         outputLine.textContent = String(output);
     }
-    
+
     outputDiv.appendChild(outputLine);
     outputDiv.scrollTop = outputDiv.scrollHeight;
 }
