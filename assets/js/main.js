@@ -262,7 +262,7 @@ function displayOutput(output, level = "info") {
     
     if (typeof output === 'string' || output instanceof String) {
 
-        // يلتقط: title + url
+        // regex: title + url
         const urlRegex = /(.*?)(https?:\/\/[^\s]+)/g;
 
         const safeText = output
