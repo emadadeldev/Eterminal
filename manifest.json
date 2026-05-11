@@ -4,9 +4,11 @@
   "version": "1.0",
   "description": "Make new tab like terminal and add your custom commands and more",
   "author": "Emad Adel",
+
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
+
   "permissions": [
     "tabs",
     "storage",
@@ -14,23 +16,24 @@
     "activeTab",
     "scripting"
   ],
+
   "commands": {
     "open-search-box": {
       "suggested_key": {
         "default": "Ctrl+Shift+F"
       },
-      "description": "Open search box in current tab"
+      "description": "Open search box"
     }
   },
+
   "background": {
     "service_worker": "assets/js/background.js"
   },
-  "web_accessible_resources": [
-    {
-      "resources": ["assets/js/search-box.js"],
-      "matches": ["<all_urls>"]
-    }
-  ],
+
+  "action": {
+    "default_title": "Eterminal"
+  },
+
   "icons": {
     "32": "assets/icons/icon.png",
     "48": "assets/icons/icon.png",
