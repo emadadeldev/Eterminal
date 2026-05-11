@@ -33,7 +33,7 @@ const Welcome = [
 
 // Load default config
 const defaultConfig = {
-    fontSize: 15,
+    fontSize: 14,
     theme: "auto",
     background: "none",
     prompt: "emadadel@eterminal:~$",
