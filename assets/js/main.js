@@ -36,7 +36,7 @@ const defaultConfig = {
     fontSize: 15,
     theme: "auto",
     background: "none",
-    prompt: "yourname@eterminal:~$",
+    prompt: "emadadel@eterminal:~$",
     promptcolor: "red",
     tips: "true",
     margin: "50",
