@@ -105,7 +105,31 @@ window.addEventListener('DOMContentLoaded', () => {
     if(userConfig.fontSize){document.documentElement.style.setProperty('--font-size', `${userConfig.fontSize}px`);}
     if(userConfig.prompt){updatePrompt(userConfig.prompt);}
     if(userConfig.promptcolor != "none"){document.documentElement.style.setProperty('--prompt', `${userConfig.promptcolor}`);}
-    if(userConfig.tips == "true"){displayOutput(Welcome[0], "info", "1");}
+
+
+    if (userConfig.tips == "true") {
+
+        let welcomeText = Welcome[0];
+
+        const isDefaultConfig =
+            JSON.stringify(userConfig) === JSON.stringify({
+                ...defaultConfig,
+                aliases: userConfig.aliases || {}
+            });
+
+        if (!isDefaultConfig) {
+            welcomeText = welcomeText
+                .split("\n")
+                .filter(line =>
+                    !line.includes("Type 'setconfig") &&
+                    !line.includes("sc'")
+                )
+                .join("\n");
+        }
+
+        displayOutput(welcomeText, "info", "1");
+    }
+
     if(userConfig.margin){document.documentElement.style.setProperty('--margin', `${userConfig.margin}px`);}
     
     // Load background asynchronously (non-blocking)
