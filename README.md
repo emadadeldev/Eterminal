@@ -77,3 +77,8 @@ Example:
 ```bash
 search -g best js frameworks
 ```
+
+
+### Random Background
+
+Change `background` value to `picsum` in your config to enable random background images from Picsum.
