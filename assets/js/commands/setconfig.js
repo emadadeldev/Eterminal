@@ -77,6 +77,8 @@ function setconfig(args, { displayOutput, userConfig, isEditingConfig ,applyThem
 
             displayOutput("Settings saved successfully", "info", "1");
 
+            location.reload();
+
             setTimeout(() => inputField.focus(), 50);
 
         } catch (err) {
