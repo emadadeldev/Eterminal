@@ -2,7 +2,7 @@
 // .NOTES
 //     Developer      : Emad Adel
 //     GitHub         : https://github.com/emadadeldev
-//     © 2025 Emad Adel. All rights reserved.
+//     © 2026 Emad Adel. All rights reserved.
 // #> -->
 
 import { commands } from './getcmd.js';
