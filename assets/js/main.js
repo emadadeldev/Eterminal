@@ -42,7 +42,7 @@ const defaultConfig = {
     margin: "50",
     searchEngine: "duckduckgo",
     OpenCommands: {
-      "yt": "https://www.youtube.com/@arcodyx",
+      "yt": "https://www.youtube.com/@arcodex-yt",
       "github": "https://github.com/emadadeldev",
     }
   }
